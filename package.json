@@ -1,0 +1,22 @@
+{
+  "name": "biz-xinghe-list",
+  "version": "1.0.0",
+  "description": "bizdev",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \\\"Error: no test specified\\\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/petersmu/biz-xinghe-list.git"
+  },
+  "keywords": [
+    "xinghe"
+  ],
+  "author": "liuxuan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/petersmu/biz-xinghe-list/issues"
+  },
+  "homepage": "https://github.com/petersmu/biz-xinghe-list#readme"
+}
