@@ -3,7 +3,7 @@
     <group v-for="(item,index) in compList"
            :key="index"
            class="group-main">
-      <cell link="/biz-mycomponent-innerPage">
+      <cell>
         <div slot="title"
              class="list-cell-title cell-desc">{{item.title || ''}}</div>
         <div slot="inline-desc">
@@ -26,107 +26,25 @@
 <script>
 import { Group, Cell } from 'vux'
 import { mapGetters, mapActions } from 'vuex'
+import store from '../store'
+import * as T from '../store/types'
+import cloneDeep from 'lodash/cloneDeep'
+import mock from '../mock'
+import Axios from 'axios'
+
 export default {
   components: {
     Group, Cell
   },
   data () {
     return {
-      mock1: [{
-        title: '星河采购01',
+      namespace: 'bizXingheList_' + (new Date()).getTime(),
+      compList: this.designtime ? [{
+        title: '采购01',
         desc: [
           {
             id: '所属公司',
-            contant: '星河集团'
-          },
-          {
-            id: '发布日期',
-            contant: '2016-02-19'
-          }
-        ],
-        more: {
-          left: {
-            id: '招标经办人',
-            contant: '曾海莉'
-          },
-          right: {
-            id: '电话',
-            contant: '13413033005'
-          }
-        }
-      }, {
-        title: '星河采购02',
-        desc: [
-          {
-            id: '所属公司',
-            contant: '星河集团'
-          },
-          {
-            id: '发布日期',
-            contant: '2016-02-19'
-          }
-        ],
-        more: {
-          left: {
-            id: '招标经办人',
-            contant: '曾海莉'
-          },
-          right: {
-            id: '电话',
-            contant: '13413033005'
-          }
-        }
-      }, {
-        title: '星河采购03',
-        desc: [
-          {
-            id: '所属公司',
-            contant: '星河集团'
-          },
-          {
-            id: '发布日期',
-            contant: '2016-02-19'
-          }
-        ],
-        more: {
-          left: {
-            id: '招标经办人',
-            contant: '曾海莉'
-          },
-          right: {
-            id: '电话',
-            contant: '13413033005'
-          }
-        }
-      }, {
-        title: '星河采购04',
-        desc: [
-          {
-            id: '所属公司',
-            contant: '星河集团'
-          },
-          {
-            id: '发布日期',
-            contant: '2016-02-19'
-          }
-        ],
-        more: {
-          left: {
-            id: '招标经办人',
-            contant: '曾海莉'
-          },
-          right: {
-            id: '电话',
-            contant: '13413033005'
-          }
-        }
-      }],
-      mock2: [{
-        title: '融信采购01',
-        desc: [
-          {
-            id: '所属公司',
-            contant: '融信集团'
+            contant: '集团'
           },
           {
             id: '负责人',
@@ -144,11 +62,11 @@ export default {
           }
         }
       }, {
-        title: '融信采购02',
+        title: '采购02',
         desc: [
           {
             id: '所属公司',
-            contant: '融信集团'
+            contant: '集团'
           },
           {
             id: '负责人',
@@ -165,96 +83,52 @@ export default {
             contant: '2017-05-09'
           }
         }
-      }, {
-        title: '融信采购03',
-        desc: [
-          {
-            id: '所属公司',
-            contant: '融信集团'
-          },
-          {
-            id: '负责人',
-            contant: '张总'
-          },
-          {
-            id: '发布日期',
-            contant: '2016-02-19'
-          }
-        ],
-        more: {
-          left: {
-            id: '有效期至',
-            contant: '2017-05-09'
-          }
-        }
-      }],
-      lastId: ''
+      }] : []
     }
   },
   props: {
+    designtime: Boolean,
     mock: {
       type: String,
-      default: 'mock1'
+      default: 'mock01'
     },
-    compId: {
+    action: {
       type: String,
       default: ''
     }
   },
   computed: {
-    ...mapGetters({
-      result: 'results'
-    }),
-    compList () {
-      console.log(this.$store.module)
-    //   // const f = this.$store.getters.results.filter((item)=>{
-    //   //   return item.id === this.compId
-    //   // })
-    //   // return f[0].cont
-      
-    //   // this.$store.getters.results.map((item,index) => {
-    //   //   // console.log(item)
-    //   //   if (item.id === this.compId) {
-    //   //     // console.log(item)
-    //   //     return item.cont
-    //   //   }
-    //   // })
-      
-    //   // const state = this.$store.state['biz-mycomponent-example']
-    //   // console.log(state)
-      return this.result[this.compId] || []
-    },
-    state () {
-      console.log(this.$store.state['biz-mycomponent-example'])
-      return this.$store.state['biz-mycomponent-example'].result
+    search_params () {
+      return this.$store.state[this.namespace].search_params
     }
   },
   methods: {
-    toInner () {
-      this.$router.push('/biz-mycomponent-innerPage')
+    onKeywordsSearch (params) {
+      this.$store.dispatch(this.namespace + '/' + T.SET_SEARCH_KEYWORD, params)
+      this.fetch(this.search_params)
     },
-    ...mapActions({
-      changeList: 'changeList',
-      removeList: 'removeList',
-      addList: 'addList'
-    })
-  },
-  watch: {
-    mock () {
-      this.changeList({ id: this.compId, cont: this[this.mock] })
-    },
-    compId () {
-      this.changeList({ id: this.compId, cont: this[this.mock] })
-      // this.result = this.$store.getters.results[this.compId]
-      this.lastId = this.compId
+    fetch (params) {
+      Axios.post(this.mock, params).then((res) =>{
+        console.log(res)
+        this.compList = res.data.list
+      }).catch((err)=>{
+        console.log(err)
+      })
     }
   },
   created () {
-    this.changeList({ id: this.compId, cont: this[this.mock] })
-    // this.$store.dispatch({
-    //   type: 'newList',
-    //   meta: this.mock1
-    // })
+    this.$store.registerModule(this.namespace, cloneDeep(store))
+    if (this.$event) {
+      // 关键字搜索
+      // let onKeywordsEvent = this.action
+      if (this.action) {
+        this.$event.$on(this.action, (params) => {
+          this.onKeywordsSearch(params)
+        })
+      }
+    }
+    
+    this.fetch()
   }
 }
 </script>

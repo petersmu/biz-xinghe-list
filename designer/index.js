@@ -1,13 +1,13 @@
 import EditComponent from './components/edit'
 
 export default {
-  name: '我的业务组件',
+  name: '采招列表',
 
   // 预览区域默认数据
   previewData: {
     props: {
-      mock: 'mock1',
-      compId: ''
+      mock: 'mock01',
+      action: 'onKeywordsSearch-{{uuid}}'
     }
   },
 

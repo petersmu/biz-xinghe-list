@@ -1,52 +1,21 @@
-import Vue from 'vue'
+import * as T from './types';
+import actions from './actions';
+import mutations from './mutations';
 
 const state = {
-  result: {}
-}
+  search_params: {}
+};
 
 const getters = {
-  results(state) {
-    return state.result
-  }
-}
-
-const mutations = {
-  changeList(state, payload) {
-    //数组形式
-    // let n = state.result.length
-    // state.result.map((item, index) => {
-    //   if (item.id === payload.id) {
-    //     n = index
-    //   }
-    // })
-    // state.result[n] = payload
-    //对象形式
-    // state.result[payload.id] = payload.cont
-    Vue.set(state.result,payload.id,payload.cont)
-  },
-  addList(state, payload) {
-    state.result.push(payload)
-  },
-  removeList(state, payload) {
-    delete state.result[payload.id]
-  }
-}
-
-const actions = {
-  changeList({ commit }, meta) {
-    commit('changeList', meta)
-  },
-  addList({ commit }, meta) {
-    commit('addList', meta)
-  },
-  removeList({commit}, meta){
-    commit('removeList', meta)
-  }
-}
+    [T.SEARCH_KEYWORD]() {
+        return state.search_keyword
+    }
+};
 
 export default {
-  state,
-  mutations,
-  getters,
-  actions
+    namespaced: true,
+    state,
+    mutations,
+    actions,
+    getters
 }

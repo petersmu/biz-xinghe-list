@@ -9,12 +9,11 @@
         <el-input :value="form.props.mock"
                   @change="changeTitle"></el-input>
       </el-form-item>
-      <el-form-item label="组件标识">
-        <el-input :value="form.props.compId"
-                  @change="changeId"></el-input>
+      <el-form-item label="事件ID">
+        <el-input :value="form.props.action"
+                  :readonly="true"></el-input>
       </el-form-item>
     </el-form>
-    <x-button @click.native="changeProp">确认修改</x-button>
   </div>
 </template>
 
@@ -45,30 +44,19 @@ export default {
       form: {
         props: {
           mock: this.value.props && this.value.props.mock,
-          compId: this.value.props && this.value.props.compId
+          action: this.value.props && this.value.props.action
         }
       }
     }
   },
   watch: {
     value () {
-      console.log(this.form.props)
       this.form.props.mock = this.value.props && this.value.props.mock
-      this.form.props.compId = this.value.props && this.value.props.compId
     }
   },
   methods: {
     changeTitle (title) {
       this.form.props.mock = title
-      this.$emit('onupdate', this.form)
-    },
-    changeId (id) {
-      this.form.props.compId = id
-      this.$emit('onupdate', this.form)
-    },
-    changeProp(){
-      // this.form.props.mock = title
-      // this.form.props.compId = id
       this.$emit('onupdate', this.form)
     }
   }
