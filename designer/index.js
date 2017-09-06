@@ -6,8 +6,9 @@ export default {
   // 预览区域默认数据
   previewData: {
     props: {
-      mock: 'mock01',
-      action: 'onKeywordsSearch-{{uuid}}'
+      apiUrl: 'mock01',
+      action: 'onKeywordsSearch-{{uuid}}',
+      href: undefined
     }
   },
 

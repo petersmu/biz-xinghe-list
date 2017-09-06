@@ -2,6 +2,7 @@ import Mock from 'mockjs'
 
 const mock1= [{
   title: '星河采购01',
+  guid: 'guid-01',
   desc: [
     {
       id: '所属公司',
@@ -24,6 +25,7 @@ const mock1= [{
   }
 }, {
   title: '星河采购02',
+  guid: 'guid-02',
   desc: [
     {
       id: '所属公司',
@@ -46,6 +48,7 @@ const mock1= [{
   }
 }, {
   title: '星河采购03',
+  guid: 'guid-03',
   desc: [
     {
       id: '所属公司',
@@ -68,6 +71,7 @@ const mock1= [{
   }
 }, {
   title: '星河采购04',
+  guid: 'guid-04',
   desc: [
     {
       id: '所属公司',
@@ -91,6 +95,7 @@ const mock1= [{
 }]
 const mock2= [{
   title: '融信采购01',
+  guid: 'guid-01',
   desc: [
     {
       id: '所属公司',
@@ -113,6 +118,7 @@ const mock2= [{
   }
 }, {
   title: '融信采购02',
+  guid: 'guid-02',
   desc: [
     {
       id: '所属公司',
@@ -135,6 +141,7 @@ const mock2= [{
   }
 }, {
   title: '融信采购03',
+  guid: 'guid-03',
   desc: [
     {
       id: '所属公司',
@@ -170,7 +177,6 @@ const mock = Mock.mock('mock01', (options)=>{
   } else {
     return {list:mock}
   }
-  
 })
 
 export default mock

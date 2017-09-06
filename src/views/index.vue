@@ -3,7 +3,7 @@
     <group v-for="(item,index) in compList"
            :key="index"
            class="group-main">
-      <cell>
+      <cell @click.native="onClickList(item.guid)">
         <div slot="title"
              class="list-cell-title cell-desc">{{item.title || ''}}</div>
         <div slot="inline-desc">
@@ -25,7 +25,6 @@
 
 <script>
 import { Group, Cell } from 'vux'
-import { mapGetters, mapActions } from 'vuex'
 import store from '../store'
 import * as T from '../store/types'
 import cloneDeep from 'lodash/cloneDeep'
@@ -41,6 +40,7 @@ export default {
       namespace: 'bizXingheList_' + (new Date()).getTime(),
       compList: this.designtime ? [{
         title: '采购01',
+        guid: 'guid-01',
         desc: [
           {
             id: '所属公司',
@@ -63,6 +63,7 @@ export default {
         }
       }, {
         title: '采购02',
+        guid: 'guid-02',
         desc: [
           {
             id: '所属公司',
@@ -88,14 +89,15 @@ export default {
   },
   props: {
     designtime: Boolean,
-    mock: {
+    apiUrl: {
       type: String,
       default: 'mock01'
     },
     action: {
       type: String,
       default: ''
-    }
+    },
+    href: Object
   },
   computed: {
     search_params () {
@@ -108,12 +110,18 @@ export default {
       this.fetch(this.search_params)
     },
     fetch (params) {
-      Axios.post(this.mock, params).then((res) =>{
-        console.log(res)
+      Axios.post(this.apiUrl, params).then((res) =>{
+        // console.log(res)
         this.compList = res.data.list
       }).catch((err)=>{
         console.log(err)
       })
+    },
+    onClickList (id) {
+      const name = this.href && this.href.name
+      if (name) {
+        this.$router.push({name: name, query:{guid: id}})
+      }
     }
   },
   created () {
@@ -128,7 +136,7 @@ export default {
       }
     }
     
-    this.fetch()
+    this.designtime || this.fetch()
   }
 }
 </script>
@@ -175,7 +183,7 @@ export default {
 }
 
 .div-date {
-  border-top: 0.5px dashed #E4E4E4;
+  border-top: 1px dashed #E4E4E4;
   margin: 15px 0 0 0;
   padding-top: 10px;
 }
