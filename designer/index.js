@@ -8,7 +8,9 @@ export default {
     props: {
       apiUrl: 'mock01',
       action: 'onKeywordsSearch-{{uuid}}',
-      href: undefined
+      href: {
+        name: ''
+      }
     }
   },
 

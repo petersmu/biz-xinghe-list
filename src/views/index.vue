@@ -97,7 +97,14 @@ export default {
       type: String,
       default: ''
     },
-    href: Object
+    href: {
+      type: Object,
+      default () {
+        return {
+          name: ''
+        }
+      }
+    }
   },
   computed: {
     search_params () {
@@ -110,18 +117,19 @@ export default {
       this.fetch(this.search_params)
     },
     fetch (params) {
-      Axios.post(this.apiUrl, params).then((res) =>{
+      Axios.post(this.apiUrl, params).then((res) => {
         // console.log(res)
         this.compList = res.data.list
-      }).catch((err)=>{
+      }).catch((err) => {
         console.log(err)
       })
     },
     onClickList (id) {
-      const name = this.href && this.href.name
-      if (name) {
-        alert(name)
-        this.$router.push({name: name, query:{guid: id}})
+      console.log(id)
+      // const name = this.href && this.href.name
+      if (this.href.name || false) {
+        alert(this.href.name)
+        this.$router.push({ name: this.href.name, query: { guid: id } })
       }
     }
   },
@@ -136,7 +144,7 @@ export default {
         })
       }
     }
-    
+
     this.designtime || this.fetch()
   }
 }
