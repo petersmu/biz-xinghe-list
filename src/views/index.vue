@@ -120,6 +120,7 @@ export default {
     onClickList (id) {
       const name = this.href && this.href.name
       if (name) {
+        alert(name)
         this.$router.push({name: name, query:{guid: id}})
       }
     }
