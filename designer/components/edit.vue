@@ -27,7 +27,6 @@ import Vue from 'vue'
 import Form from 'element-ui/lib/form'
 import FormItem from 'element-ui/lib/form-item'
 import Input from 'element-ui/lib/input'
-import tabs from '@designer/edit-tabs/index'
 import { XButton } from 'vux'
 import linkEditor from '@/emulator/components/link-editor/index'
 
@@ -41,7 +40,6 @@ export default {
     linkPages: Object
   },
   components: {
-    tabs,
     XButton,
     linkEditor
   },

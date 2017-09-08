@@ -2,23 +2,25 @@
   <div class="xh-list">
     <group v-for="(item,index) in compList"
            :key="index"
-           class="group-main">
-      <cell @click.native="onClickList(item.guid)">
+           class="group-main"
+           @click.native="onClickList(item.guid)">
+      <cell>
         <div slot="title"
              class="list-cell-title cell-desc">{{item.title || ''}}</div>
         <div slot="inline-desc">
           <span class="cell-desc"
                 v-for="(cont, index) in item.desc"
                 :key="index">{{cont.id ? cont.id + ': ' : ''}}{{cont.contant || ''}}</span>
-          <div class="div-date"
-               v-if="item.more">
-            <div class="div-left"
-                 v-if="item.more.left">{{item.more.left.id}}: {{item.more.left.contant}}</div>
-            <div class="div-right"
-                 v-if="item.more.right">{{item.more.right.id}}: {{item.more.right.contant}}</div>
-          </div>
+
         </div>
       </cell>
+      <div class="div-bottom"
+           v-if="item.more">
+        <div class="div-left"
+             v-if="item.more.left">{{item.more.left.id}}: {{item.more.left.contant}}</div>
+        <div class="div-right"
+             v-if="item.more.right">{{item.more.right.id}}: {{item.more.right.contant}}</div>
+      </div>
     </group>
   </div>
 </template>
@@ -125,7 +127,7 @@ export default {
       })
     },
     onClickList (id) {
-      console.log(id)
+      alert(id)
       // const name = this.href && this.href.name
       if (this.href.name || false) {
         alert(this.href.name)
@@ -191,10 +193,13 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.div-date {
+.div-bottom {
   border-top: 1px dashed #E4E4E4;
-  margin: 15px 0 0 0;
-  padding-top: 10px;
+  padding: 8px 15px;
+  font-size: 12px;
+  color: #888;
+  zoom: 1;
+  overflow: auto;
 }
 
 .div-left {
