@@ -127,10 +127,7 @@ export default {
       })
     },
     onClickList (id) {
-      alert(id)
-      // const name = this.href && this.href.name
       if (this.href.name || false) {
-        alert(this.href.name)
         this.$router.push({ name: this.href.name, query: { guid: id } })
       }
     }

@@ -59,6 +59,7 @@ export default {
     value () {
       this.form.props.apiUrl = this.value.props && this.value.props.apiUrl
       this.form.props.href = this.value.props && this.value.props.href
+      this.form.props.action = this.value.props && this.value.props.action
     }
   },
   methods: {
